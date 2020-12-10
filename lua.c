@@ -188,7 +188,7 @@ static void php_lua_free_object(zend_object *object) /* {{{ */ {
 	}
 	zval_dtor(&(lua_obj->_callbacks));
 	zend_object_std_dtor(object);
-	efree(lua_obj);
+	/* efree(lua_obj); */
 }
 /* }}} */
 
