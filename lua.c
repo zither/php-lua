@@ -176,7 +176,9 @@ static void * php_lua_alloc_function(void *ud, void *ptr, size_t osize, size_t n
 static void php_lua_dtor_object(zend_object *object) /* {{{ */ {
 	php_lua_object *lua_obj = php_lua_obj_from_obj(object);
 
-	zend_object_std_dtor(&(lua_obj->obj));
+	zval_ptr_dtor(&(lua_obj->_callbacks));
+
+	zend_object_std_dtor(object);
 }
 /* }}} */
 
@@ -186,8 +188,6 @@ static void php_lua_free_object(zend_object *object) /* {{{ */ {
 	if (lua_obj->L) {
 		lua_close(lua_obj->L);
 	}
-	zval_ptr_dtor(&(lua_obj->_callbacks));
-	zend_object_std_dtor(object);
 }
 /* }}} */
 
