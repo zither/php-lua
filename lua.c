@@ -188,7 +188,6 @@ static void php_lua_free_object(zend_object *object) /* {{{ */ {
 	}
 	zval_dtor(&(lua_obj->_callbacks));
 	zend_object_std_dtor(object);
-	/* efree(lua_obj); */
 }
 /* }}} */
 
@@ -311,7 +310,6 @@ static void php_lua_write_property(zend_object *object, zend_string *member, zva
 #endif
 }
 /* }}} */
-
 #endif
 
 /** {{{  static int php_lua_call_callback(lua_State *L)
@@ -323,7 +321,7 @@ static int php_lua_call_callback(lua_State *L) {
 	zval *callbacks	 = NULL;
 
 	lua_Integer ptr = lua_tointeger(L, lua_upvalueindex(1));
-	php_lua_object * p_lua_object = (php_lua_object *)ptr;
+	php_lua_object *p_lua_object = (php_lua_object *)ptr;
 	order = lua_tonumber(L, lua_upvalueindex(2));
 
 	callbacks = &(p_lua_object->_callbacks);
