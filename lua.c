@@ -319,9 +319,9 @@ static int php_lua_call_callback(lua_State *L) {
 	zval retval;
 	zval *func		 = NULL;
 	zval *callbacks	 = NULL;
+	php_lua_object *p_lua_object;
 
-	lua_Integer ptr = lua_tointeger(L, lua_upvalueindex(1));
-	php_lua_object *p_lua_object = (php_lua_object *)ptr;
+	p_lua_object = lua_touserdata(L, lua_upvalueindex(1));
 	order = lua_tonumber(L, lua_upvalueindex(2));
 
 	callbacks = &(p_lua_object->_callbacks);
@@ -478,7 +478,7 @@ try_again:
 						array_init(callbacks);
 					}
 
-					lua_pushinteger(L, (lua_Integer)p_lua_object);
+					lua_pushlightuserdata(L, p_lua_object);
 					lua_pushnumber(L, zend_hash_num_elements(Z_ARRVAL_P(callbacks)));
 					lua_pushcclosure(L, php_lua_call_callback, 2);
 
@@ -845,7 +845,7 @@ PHP_METHOD(lua, registerCallback) {
 	}
 
 	if (zend_is_callable(func, 0, NULL)) {
-		lua_pushinteger(L, (lua_Integer)(p_lua_object));
+		lua_pushlightuserdata(L, p_lua_object);
 		lua_pushnumber(L, zend_hash_num_elements(Z_ARRVAL_P(callbacks)));
 		lua_pushcclosure(L, php_lua_call_callback, 2);
 		lua_setglobal(L, name);
