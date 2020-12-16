@@ -311,9 +311,9 @@ static zval* php_lua_write_property(zend_object *object, zend_string *member, zv
 #else
 	php_lua_send_zval_to_lua(p_lua_object, value);
 	lua_setglobal(L, Z_STRVAL_P(&temp_member));
+#endif
 
 	return value;
-#endif
 }
 /* }}} */
 #endif
